@@ -1,11 +1,5 @@
 /*
-* OOP v1.0.1 Copyright (c) 2016 AJ Savino
-* https://github.com/koga73/OOP
-* MIT LICENSE
-*/
-var OOP=function(){var e={namespace:function(e,n){for(var t=e.split("."),r=t.length,a=window,v=0;r>v;v++){var i=t[v];a[i]=v==r-1?n:a[i]||{},a[i]._type=t.slice(0,v+1).join("."),a=a[i]}return n},extend:function(n,t){if("undefined"==typeof n)throw"Error base object is undefined";if(!e._isFunction(n))throw"Error base object must be a function";var r=new n;for(var a in r)"undefined"==typeof t[a]&&(t[a]=r[a]);var v=r;do v._interface=t,v=v._super;while("undefined"!=typeof v);return t._super=r,t},construct:function(n,t,r){var a=null;arguments&&arguments.callee&&arguments.callee.caller&&(a=arguments.callee.caller._type,n._type=a),n._isType=function(t){return e.isType(n,t)},n._interface=n;for(var v in t)e._isFunction(n[v])?n[v](t[v]):n[v]=t[v];return 1==r&&(n._eventHandlers||(n._eventHandlers={}),n.addEventListener||(n.addEventListener=e._addEventListener),n.removeEventListener||(n.removeEventListener=e._removeEventListener),n.dispatchEvent||(n.dispatchEvent=e._dispatchEvent)),n},event:function(e,n){var t=null;try{t=new CustomEvent(e)}catch(r){document.createEventObject?(t=document.createEventObject("Event"),t.initCustomEvent&&t.initCustomEvent(e,!0,!0)):t={}}return t._type=e,t._data=n,t},addEventListener:function(n,t,r){n._eventHandlers||(n._eventHandlers={}),t=t.split(",");for(var a=t.length,v=0;a>v;v++){var i=t[v];if(n.addEventListener)r=e._addEventHandler(n,i,r),n.addEventListener(i,r);else if(n.attachEvent){var d=function(){r(window.event)};d.handler=r,d=e._addEventHandler(n,i,d),n.attachEvent("on"+i,d)}else"undefined"!=typeof jQuery?(r=e._addEventHandler(n,i,r),jQuery.on(i,r)):(n.addEventListener=e._addEventListener,n.addEventListener(i,r))}},_addEventListener:function(n,t){t._isCustom=!0,e._addEventHandler(this,n,t)},_addEventHandler:function(e,n,t){e._eventHandlers[n]||(e._eventHandlers[n]=[]);for(var r=e._eventHandlers[n],a=r.length,v=0;a>v;v++){if(r[v]===t)return t;if(r[v].handler&&r[v].handler===t)return r[v]}return r.push(t),t},removeEventListener:function(n,t,r){n._eventHandlers||(n._eventHandlers={}),t=t.split(",");for(var a=t.length,v=0;a>v;v++){var i,d=t[v];i="undefined"==typeof r?n._eventHandlers[d]||[]:[r];for(var s=i.length,o=0;s>o;o++){var r=i[o];n.removeEventListener?(r=e._removeEventHandler(n,d,r),n.removeEventListener(d,r)):n.detachEvent?(r=e._removeEventHandler(n,d,r),n.detachEvent("on"+d,r)):"undefined"!=typeof jQuery?(r=e._removeEventHandler(n,d,r),jQuery.off(d,r)):(n.removeEventListener=e._removeEventListener,n.removeEventListener(d,r))}}},_removeEventListener:function(n,t){n=n.split(",");for(var r=n.length,a=0;r>a;a++){var v,i=n[a];v="undefined"==typeof t?this._eventHandlers[i]||[]:[t];for(var d=v.length,s=0;d>s;s++){var t=v[s];t._isCustom=!1,e._removeEventHandler(this,i,t)}}},_removeEventHandler:function(e,n,t){e._eventHandlers[n]||(e._eventHandlers[n]=[]);for(var r=e._eventHandlers[n],a=r.length,v=0;a>v;v++){if(r[v]===t)return r.splice(v,1)[0];if(r[v].handler&&r[v].handler===t)return r.splice(v,1)[0]}},dispatchEvent:function(n,t){n._eventHandlers||(n._eventHandlers={}),n.dispatchEvent?n.dispatchEvent(t):n.fireEvent?n.fireEvent("on"+type,t):"undefined"!=typeof jQuery?jQuery(n).trigger(jQuery.Event(t._type,{_type:t._type,_data:t._data})):(n.dispatchEvent=e._dispatchEvent,n.dispatchEvent(t))},_dispatchEvent:function(n){e._dispatchEventHandlers(this,n)},_dispatchEventHandlers:function(e,n){var t=e._eventHandlers[n._type];if(t)for(var r=t.length,a=0;r>a;a++)t[a](n)},isType:function(e,n){var t=e;do{if(t._type==n||t._type==n._type)return!0;t=t._super}while("undefined"!=typeof t);return!1},_isFunction:function(e){return e&&"[object Function]"==Object.prototype.toString.call(e)}};return{Namespace:e.namespace,Extend:e.extend,Construct:e.construct,Event:e.event,addEventListener:e.addEventListener,removeEventListener:e.removeEventListener,dispatchEvent:e.dispatchEvent,isType:e.isType}}();
-/*
-* AudioPlayer v0.0.4 Copyright (c) 2016 AJ Savino
+* AudioPlayer v1.0.0 Copyright (c) 2016 AJ Savino
 * https://github.com/koga73/AudioPlayer
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,6 +20,14 @@ var OOP=function(){var e={namespace:function(e,n){for(var t=e.split("."),r=t.len
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
+if (!OOP){
+	/*
+	* OOP v1.0.1 Copyright (c) 2016 AJ Savino
+	* https://github.com/koga73/OOP
+	* MIT LICENSE
+	*/
+	var OOP=function(){var e={namespace:function(e,n){for(var t=e.split("."),r=t.length,a=window,v=0;r>v;v++){var i=t[v];a[i]=v==r-1?n:a[i]||{},a[i]._type=t.slice(0,v+1).join("."),a=a[i]}return n},extend:function(n,t){if("undefined"==typeof n)throw"Error base object is undefined";if(!e._isFunction(n))throw"Error base object must be a function";var r=new n;for(var a in r)"undefined"==typeof t[a]&&(t[a]=r[a]);var v=r;do v._interface=t,v=v._super;while("undefined"!=typeof v);return t._super=r,t},construct:function(n,t,r){var a=null;arguments&&arguments.callee&&arguments.callee.caller&&(a=arguments.callee.caller._type,n._type=a),n._isType=function(t){return e.isType(n,t)},n._interface=n;for(var v in t)e._isFunction(n[v])?n[v](t[v]):n[v]=t[v];return 1==r&&(n._eventHandlers||(n._eventHandlers={}),n.addEventListener||(n.addEventListener=e._addEventListener),n.removeEventListener||(n.removeEventListener=e._removeEventListener),n.dispatchEvent||(n.dispatchEvent=e._dispatchEvent)),n},event:function(e,n){var t=null;try{t=new CustomEvent(e)}catch(r){document.createEventObject?(t=document.createEventObject("Event"),t.initCustomEvent&&t.initCustomEvent(e,!0,!0)):t={}}return t._type=e,t._data=n,t},addEventListener:function(n,t,r){n._eventHandlers||(n._eventHandlers={}),t=t.split(",");for(var a=t.length,v=0;a>v;v++){var i=t[v];if(n.addEventListener)r=e._addEventHandler(n,i,r),n.addEventListener(i,r);else if(n.attachEvent){var d=function(){r(window.event)};d.handler=r,d=e._addEventHandler(n,i,d),n.attachEvent("on"+i,d)}else"undefined"!=typeof jQuery?(r=e._addEventHandler(n,i,r),jQuery.on(i,r)):(n.addEventListener=e._addEventListener,n.addEventListener(i,r))}},_addEventListener:function(n,t){t._isCustom=!0,e._addEventHandler(this,n,t)},_addEventHandler:function(e,n,t){e._eventHandlers[n]||(e._eventHandlers[n]=[]);for(var r=e._eventHandlers[n],a=r.length,v=0;a>v;v++){if(r[v]===t)return t;if(r[v].handler&&r[v].handler===t)return r[v]}return r.push(t),t},removeEventListener:function(n,t,r){n._eventHandlers||(n._eventHandlers={}),t=t.split(",");for(var a=t.length,v=0;a>v;v++){var i,d=t[v];i="undefined"==typeof r?n._eventHandlers[d]||[]:[r];for(var s=i.length,o=0;s>o;o++){var r=i[o];n.removeEventListener?(r=e._removeEventHandler(n,d,r),n.removeEventListener(d,r)):n.detachEvent?(r=e._removeEventHandler(n,d,r),n.detachEvent("on"+d,r)):"undefined"!=typeof jQuery?(r=e._removeEventHandler(n,d,r),jQuery.off(d,r)):(n.removeEventListener=e._removeEventListener,n.removeEventListener(d,r))}}},_removeEventListener:function(n,t){n=n.split(",");for(var r=n.length,a=0;r>a;a++){var v,i=n[a];v="undefined"==typeof t?this._eventHandlers[i]||[]:[t];for(var d=v.length,s=0;d>s;s++){var t=v[s];t._isCustom=!1,e._removeEventHandler(this,i,t)}}},_removeEventHandler:function(e,n,t){e._eventHandlers[n]||(e._eventHandlers[n]=[]);for(var r=e._eventHandlers[n],a=r.length,v=0;a>v;v++){if(r[v]===t)return r.splice(v,1)[0];if(r[v].handler&&r[v].handler===t)return r.splice(v,1)[0]}},dispatchEvent:function(n,t){n._eventHandlers||(n._eventHandlers={}),n.dispatchEvent?n.dispatchEvent(t):n.fireEvent?n.fireEvent("on"+type,t):"undefined"!=typeof jQuery?jQuery(n).trigger(jQuery.Event(t._type,{_type:t._type,_data:t._data})):(n.dispatchEvent=e._dispatchEvent,n.dispatchEvent(t))},_dispatchEvent:function(n){e._dispatchEventHandlers(this,n)},_dispatchEventHandlers:function(e,n){var t=e._eventHandlers[n._type];if(t)for(var r=t.length,a=0;r>a;a++)t[a](n)},isType:function(e,n){var t=e;do{if(t._type==n||t._type==n._type)return!0;t=t._super}while("undefined"!=typeof t);return!1},_isFunction:function(e){return e&&"[object Function]"==Object.prototype.toString.call(e)}};return{Namespace:e.namespace,Extend:e.extend,Construct:e.construct,Event:e.event,addEventListener:e.addEventListener,removeEventListener:e.removeEventListener,dispatchEvent:e.dispatchEvent,isType:e.isType}}();
+}
 OOP.Namespace("AudioPlayer", function(params){
 	var _instance = null;
 	
@@ -41,6 +43,7 @@ OOP.Namespace("AudioPlayer", function(params){
 		autoLoop:false,
 		
 		_src:null,
+		_fileName:null,
 		_volume:1,
 		_isReady:false,
 		_isPlaying:false,
@@ -48,7 +51,7 @@ OOP.Namespace("AudioPlayer", function(params){
 		_isMuted:false,
 		_lastVolume:-1,
 		_lastTime:-1,
-		_state:null,
+		_state:null
 	};
 	
 	var _methods = {
@@ -107,6 +110,10 @@ OOP.Namespace("AudioPlayer", function(params){
 				_instance.gain.gain.value = _vars._volume;
 			}
 			return _vars._volume;
+		},
+		
+		fileName:function(){ //Getter
+			return _vars._fileName;
 		},
 		
 		currentTime:function(){ //Getter
@@ -168,7 +175,7 @@ OOP.Namespace("AudioPlayer", function(params){
 			};
 			_instance.bufferSource = bufferSource;
 			
-			_methods._log("PLAY: " + _vars._src +  " | startTime:" + startTime + " | loop:" + loop, "#0080FF");
+			_methods._log("PLAY: " + _vars._fileName +  " | startTime:" + startTime + " | loop:" + loop, "#0080FF");
 			_methods._stateChange(AudioPlayer.STATES.PLAYING);
 			
 			bufferSource.buffer = _instance.buffer;
@@ -262,33 +269,43 @@ OOP.Namespace("AudioPlayer", function(params){
 		_load:function(src){
 			_vars._isReady = false;
 			_methods._stateChange(AudioPlayer.STATES.LOADING);
-			_methods._ajax({
-				url:src,
-				responseType:"blob",
-				onSuccess:function(response){
-					_methods._log("FILE LOADED: " + src, "#0080FF");
-					_methods._stateChange(AudioPlayer.STATES.PROCESSING);
+			
+			if (_methods._isObject(src)){ //Assume file
+				_vars._fileName = src.name;
+				_methods._handler_loaded(src);
+			} else { //Assume URL
+				_vars._fileName = src;
+				_methods._ajax({
+					url:src,
+					responseType:"blob",
+					onSuccess:_methods._handler_loaded
+				});
+			}
+		},
+		
+		_handler_loaded:function(file){
+			var fileName = _vars._fileName;
+			_methods._log("FILE LOADED: " + fileName, "#0080FF");
+			_methods._stateChange(AudioPlayer.STATES.PROCESSING);
+			
+			var reader = new FileReader();
+			reader.onload = function(evt){
+				_methods._log("DECODING AUDIO: " + fileName, "#0080FF");
+				
+				var fileBytes = evt.target.result;
+				_instance.context.decodeAudioData(fileBytes, function(buffer){
+					_instance.buffer = buffer;
+					_vars._isReady = true;
 					
-					var fr = new FileReader();
-					fr.onload = function(evt){
-						_methods._log("DECODING AUDIO: " + src, "#0080FF");
-						
-						var fileBytes = evt.target.result;
-						_instance.context.decodeAudioData(fileBytes, function(buffer){
-							_instance.buffer = buffer;
-							_vars._isReady = true;
-							
-							_methods._log("AUDIO PROCESSED: " + src, "#0080FF");
-							_methods._stateChange(AudioPlayer.STATES.READY);
-							
-							if (_instance.autoPlay){
-								_instance.play(0, _instance.autoLoop);
-							}
-						});
-					};
-					fr.readAsArrayBuffer(response);
-				}
-			});
+					_methods._log("AUDIO PROCESSED: " + fileName, "#0080FF");
+					_methods._stateChange(AudioPlayer.STATES.READY);
+					
+					if (_instance.autoPlay){
+						_instance.play(0, _instance.autoLoop);
+					}
+				});
+			};
+			reader.readAsArrayBuffer(file);
 		},
 		
 		_ajax:function(inputParams){
@@ -342,6 +359,10 @@ OOP.Namespace("AudioPlayer", function(params){
 			} else {
 				request.send();
 			}
+		},
+		
+		_isObject:function(obj){
+			return obj != null && typeof obj === "object";
 		}
 	};
 	
@@ -359,6 +380,9 @@ OOP.Namespace("AudioPlayer", function(params){
 		src:_methods.src,					//String
 		autoPlay:_methods.autoPlay,			//Boolean
 		volume:_methods.volume,				//0-1
+		
+		//Getter
+		fileName:_methods.fileName,
 		currentTime:_methods.currentTime,
 		duration:_methods.duration,
 		isPlaying:_methods.isPlaying,

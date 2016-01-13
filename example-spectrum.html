@@ -18,6 +18,7 @@
 				background:#000;
 			}
 		</style>
+		<link href="css/filedrop.css" type="text/css" rel="stylesheet"/>
 		<link href="css/spectrum.css" type="text/css" rel="stylesheet"/>
 	</head>
 	<body>
@@ -29,14 +30,25 @@
 		</div>
 		
 		<script src="js/AudioPlayer.js"></script>
+		<script src="js/spectrum/lib/FileDrop.min.js"></script>
 		<script src="js/spectrum/lib/GFXRenderer.min.js"></script>
-		<!--<script src="js/spectrum/Spectrum.js"></script>-->
-		
-		<script src="js/spectrum/FileDrop.js"></script>
+		<script src="js/spectrum/Spectrum.js"></script>
 		<script>
+			var player = new AudioPlayer({
+				debug:true
+			});
+			var gfx = new GFXRenderer({
+				canvas:document.getElementById("canvas"),
+			});
+			var spectrum = new Spectrum({
+				player:player,
+				gfx:gfx
+			});
+			
 			var fileDrop = new FileDrop(document.getElementById("fileDropContainer"));
 			fileDrop.addEventListener(FileDrop.EVENT_FILE, function(evt){
-				console.log(evt._data);
+				var file = evt._data;
+				player.src(file);
 			});
 		</script>
 	</body>

@@ -19,7 +19,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
-var Spectrum = (function(){
+var Spectrum = function(params){
 	var _instance = null;
 	
 	var _consts = {
@@ -35,8 +35,8 @@ var Spectrum = (function(){
 	
 	var _vars = {
 		player:null,
+		gfx:null,
 		
-		_gfx:null,
 		_gradient:null,
 		
 		_canvasWidth:0,
@@ -49,19 +49,19 @@ var Spectrum = (function(){
 	
 	var _methods = {
 		init:function(){
-			var player = new AudioPlayer({
-				src:"mp3/workwork.mp3",
-				debug:true
-			});
-			OOP.addEventListener(player, AudioPlayer.EVENT_STATE_CHANGE, _methods._handler_player_stateChange);
-			_instance.player = player;
+			var player = _instance.player;
+			if (!player){
+				throw new Error("'player':AudioPlayer must be defined");
+			}
+			player.addEventListener(AudioPlayer.EVENT_STATE_CHANGE, _methods._handler_player_stateChange);
 			
-			_vars._gfx = new GFXRenderer({
-				canvas:document.getElementById("canvas"),
-				onRender:_methods._handler_render,
-				onResize:_methods._handler_resize,
-				paused:true
-			});
+			var gfx = _instance.gfx;
+			if (!gfx){
+				throw new Error("'gfx':GFXRenderer must be defined");
+			}
+			gfx.paused = true;
+			gfx.onRender = _methods._handler_render;
+			gfx.onResize = _methods._handler_resize;
 		},
 		
 		_handler_player_stateChange:function(evt){
@@ -72,7 +72,7 @@ var Spectrum = (function(){
 					player.play();
 					
 					_methods._handler_resize();
-					_vars._gfx.paused = false;
+					_instance.gfx.paused = false;
 					break;
 			}
 		},
@@ -81,7 +81,7 @@ var Spectrum = (function(){
 			var data = _instance.player.analyze();
 			var dataLen = data.length;
 			
-			var gfx = _vars._gfx;
+			var gfx = _instance.gfx;
 			var context = gfx.context;
 			var canvas = gfx.canvas;
 			var canvasWidth = _vars._canvasWidth;
@@ -118,7 +118,7 @@ var Spectrum = (function(){
 		
 		_handler_resize:function(evt){
 			var dataLen = _consts.FTT_SIZE >> 1;
-			var canvas = _vars._gfx.canvas;
+			var canvas = _instance.gfx.canvas;
 			var canvasWidth = canvas.width;
 			var canvasHeight = canvas.height;
 			var stepX = canvasWidth / dataLen + _consts.BAR_SPACING >> 0 || 1;
@@ -135,7 +135,7 @@ var Spectrum = (function(){
 		},
 		
 		_generateGradient:function(){
-			var gradient = _vars._gfx.context.createLinearGradient(0, 0, 0, _vars._canvasHeight);
+			var gradient = _instance.gfx.context.createLinearGradient(0, 0, 0, _vars._canvasHeight);
 			gradient.addColorStop(0, _consts.OUTER_COLOR);
 			gradient.addColorStop(0.5, _consts.INNER_COLOR);
 			gradient.addColorStop(1, _consts.OUTER_COLOR);
@@ -150,9 +150,13 @@ var Spectrum = (function(){
 	
 	_instance = {
 		player:_vars.player,
+		gfx:_vars.gfx,
 		
 		init:_methods.init
 	};
+	for (var param in params){
+		_instance[param] = params[param];
+	}
 	_instance.init();
 	return _instance;
-})();
+};

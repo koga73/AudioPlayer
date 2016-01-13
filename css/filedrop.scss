@@ -1,0 +1,66 @@
+#fileDropContainer {
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	background-color:#AAA;
+	width:300px;
+	height:150px;
+	border-radius:8px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border:2px dashed #FFF;
+	padding:7px 15px;
+	margin:32px;
+	text-align:center;
+	
+	&:before {
+		content:"Drag and drop a file";
+		display:inline-block;
+		text-transform:uppercase;
+		color:#FFF;
+	}
+	&:after {
+		content:"";
+		display:inline-block;
+		height:100%;
+		vertical-align:middle;
+	}
+	
+	&.drag-begin {
+		border:2px dashed #0FF;
+		
+		&:before {
+			content:"Drop the file here";
+			color:#0FF;
+		}
+	}
+	&.drag-over {
+		background-color:#FFF;
+		border:2px dashed #080;
+		
+		&:before {
+			content:"Upload";
+			color:#080;
+			font-weight:bold;
+		}
+	}
+	
+	input[type='file'] {
+		display:block;
+		position:absolute;
+		left:0;
+		top:0;
+		width:100%;
+		height:100%;
+		opacity:0;
+		z-index:1;
+		cursor:pointer;
+		
+		&::-webkit-file-upload-button {
+			cursor:pointer;
+			width:100%;
+			height:100%;
+		}
+	}
+}
