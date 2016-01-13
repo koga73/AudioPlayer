@@ -1,0 +1,9 @@
+{
+  "name": "AudioPlayer",
+  "dependencies": {
+    "gulp": "^3.5.6"
+  },
+  "devDependencies": {
+    "gulp-sass": "^2.1.0"
+  }
+}
