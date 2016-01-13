@@ -22,9 +22,8 @@
 	</head>
 	<body>
 		<div id="container">
-			<div id="btnLoadContainer">
-				<span>LOAD MP3</span>
-				<input id="btnLoad" type="file" accept=".mp3"/>
+			<div id="fileDropContainer">
+				<input type="file" accept=".mp3"/>
 			</div>
 			<canvas id="canvas"></canvas>
 		</div>
@@ -32,6 +31,13 @@
 		<script src="js/AudioPlayer.js"></script>
 		<script src="js/spectrum/lib/GFXRenderer.min.js"></script>
 		<!--<script src="js/spectrum/Spectrum.js"></script>-->
-		<script src="js/spectrum/FileLoad.js"></script>
+		
+		<script src="js/spectrum/FileDrop.js"></script>
+		<script>
+			var fileDrop = new FileDrop(document.getElementById("fileDropContainer"));
+			fileDrop.addEventListener(FileDrop.EVENT_FILE, function(evt){
+				console.log(evt._data);
+			});
+		</script>
 	</body>
 </html>

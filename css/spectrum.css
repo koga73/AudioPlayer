@@ -2,25 +2,44 @@
   width: 100%;
   height: 100%; }
 
-#btnLoadContainer {
+#fileDropContainer {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box; }
-  #btnLoadContainer.drag-begin {
-    border: 2px dashed #00F;
-    padding: 7px 15px; }
-    #btnLoadContainer.drag-begin span {
-      color: #00F; }
-  #btnLoadContainer.drag-over {
-    background-color: #F00;
-    border: 2px dashed #FF0000;
-    padding: 7px 15px; }
-    #btnLoadContainer.drag-over span {
-      color: #FF0000; }
-  #btnLoadContainer span {
-    z-index: 0;
-    display: inline-block; }
-  #btnLoadContainer #btnLoad {
+  -webkit-box-sizing: border-box;
+  position: relative;
+  background-color: #AAA;
+  width: 300px;
+  height: 150px;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border: 2px dashed #FFF;
+  padding: 7px 15px;
+  margin: 32px;
+  text-align: center; }
+  #fileDropContainer:before {
+    content: "Drag and drop a file";
+    display: inline-block;
+    text-transform: uppercase;
+    color: #FFF; }
+  #fileDropContainer:after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle; }
+  #fileDropContainer.drag-begin {
+    border: 2px dashed #0FF; }
+    #fileDropContainer.drag-begin:before {
+      content: "Drop the file here";
+      color: #0FF; }
+  #fileDropContainer.drag-over {
+    background-color: #FFF;
+    border: 2px dashed #080; }
+    #fileDropContainer.drag-over:before {
+      content: "Upload";
+      color: #080;
+      font-weight: bold; }
+  #fileDropContainer input[type='file'] {
     display: block;
     position: absolute;
     left: 0;
@@ -30,7 +49,7 @@
     opacity: 0;
     z-index: 1;
     cursor: pointer; }
-    #btnLoadContainer #btnLoad::-webkit-file-upload-button {
+    #fileDropContainer input[type='file']::-webkit-file-upload-button {
       cursor: pointer;
       width: 100%;
       height: 100%; }

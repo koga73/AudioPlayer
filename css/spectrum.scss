@@ -3,36 +3,55 @@
 	height:100%;
 }
 
-#btnLoadContainer {
+#fileDropContainer {
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box;
+	position:relative;
+	background-color:#AAA;
+	width:300px;
+	height:150px;
+	border-radius:8px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border:2px dashed #FFF;
+	padding:7px 15px;
+	margin:32px;
+	text-align:center;
+	
+	&:before {
+		content:"Drag and drop a file";
+		display:inline-block;
+		text-transform:uppercase;
+		color:#FFF;
+	}
+	&:after {
+		content:"";
+		display:inline-block;
+		height:100%;
+		vertical-align:middle;
+	}
 	
 	&.drag-begin {
-		border:2px dashed #00F;
-		padding:7px 15px;
+		border:2px dashed #0FF;
 		
-		span {
-			color:#00F;
+		&:before {
+			content:"Drop the file here";
+			color:#0FF;
 		}
 	}
-	
 	&.drag-over {
-		background-color:#F00;
-		border:2px dashed #FF0000;
-		padding:7px 15px;
+		background-color:#FFF;
+		border:2px dashed #080;
 		
-		span {
-			color:#FF0000;
+		&:before {
+			content:"Upload";
+			color:#080;
+			font-weight:bold;
 		}
 	}
 	
-	span {
-		z-index:0;
-		display:inline-block;
-	}
-	
-	#btnLoad {
+	input[type='file'] {
 		display:block;
 		position:absolute;
 		left:0;
