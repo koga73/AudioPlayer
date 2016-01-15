@@ -26,6 +26,7 @@
 			<div id="fileDropContainer">
 				<input type="file" accept=".mp3"/>
 			</div>
+			<span id="status"></span>
 			<canvas id="canvas"></canvas>
 		</div>
 		
@@ -34,6 +35,8 @@
 		<script src="js/spectrum/lib/GFXRenderer.min.js"></script>
 		<script src="js/spectrum/Spectrum.js"></script>
 		<script>
+			var statusElement = document.getElementById("status");
+			
 			var player = new AudioPlayer({
 				debug:true
 			});
@@ -45,10 +48,30 @@
 				gfx:gfx
 			});
 			
-			var fileDrop = new FileDrop(document.getElementById("fileDropContainer"));
+			var fileDropContainer = document.getElementById("fileDropContainer");
+			var fileDrop = new FileDrop(fileDropContainer);
 			fileDrop.addEventListener(FileDrop.EVENT_FILE, function(evt){
 				var file = evt._data;
 				player.src(file);
+			});
+			
+			//Update status
+			var timeout = null;
+			player.addEventListener(AudioPlayer.EVENT_STATE_CHANGE, function(evt){
+				switch (evt._data){
+					case AudioPlayer.STATES.LOADING:
+						fileDropContainer.style.visibility = "hidden";
+						statusElement.innerHTML = "LOADING...";
+						break;
+					case AudioPlayer.STATES.PROCESSING:
+						statusElement.innerHTML = "PROCESSING...";
+						break;
+					case AudioPlayer.STATES.COMPLETE:
+						fileDropContainer.style.visibility = "visible";
+					default:
+						statusElement.innerHTML = "";
+						break;
+				}
 			});
 		</script>
 	</body>

@@ -29,8 +29,8 @@ var Spectrum = function(params){
 		DRAW_ALPHA:1.0,
 		BLUR_ALPHA:0.25,
 		BLUR_LOOPS:1,
-		OUTER_COLOR:"#00F",
-		INNER_COLOR:"#0FF"
+		OUTER_COLOR:"#F00",
+		INNER_COLOR:"#FF0"
 	};
 	
 	var _vars = {
@@ -54,6 +54,7 @@ var Spectrum = function(params){
 				throw new Error("'player':AudioPlayer must be defined");
 			}
 			player.addEventListener(AudioPlayer.EVENT_STATE_CHANGE, _methods._handler_player_stateChange);
+			player.analyzer.fftSize = _consts.FTT_SIZE;
 			
 			var gfx = _instance.gfx;
 			if (!gfx){
@@ -68,7 +69,9 @@ var Spectrum = function(params){
 			switch (evt._data){
 				case AudioPlayer.STATES.READY:
 					var player = _instance.player;
-					player.analyzer.fftSize = _consts.FTT_SIZE;
+					if (player.isPlaying()){
+						player.stop();
+					}
 					player.play();
 					
 					_methods._handler_resize();
@@ -111,8 +114,8 @@ var Spectrum = function(params){
 			for (var i = 0; i < dataLen; i++){
 				var x = i * stepX;
 				var y = center[1] * (data[i] / 0xFF);
-				context.fillRect(x, center[1] - 1, barWidth, y);
 				context.fillRect(x, center[1] + 1, barWidth, -y);
+				context.fillRect(x, center[1] - 1, barWidth, y);
 			}
 		},
 		
